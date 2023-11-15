@@ -172,10 +172,10 @@ void DuelReset::LoadConfig(bool /*reload*/)
 {
     m_enableCooldowns = sConfigMgr->GetOption<bool>("DuelReset.Cooldowns", true);
     m_enableHealth = sConfigMgr->GetOption<bool>("DuelReset.HealthMana", true);
-    m_cooldownAge = sConfigMgr->GetOption<uint32>("DuelReset.CooldownAge", 30);
+    m_cooldownAge = sConfigMgr->GetOption<uint32>("DuelReset.CooldownAge", 0);
 
-    FillWhitelist(sConfigMgr->GetOption<std::string>("DuelReset.Zones", "0"), m_zoneWhitelist);
-    FillWhitelist(sConfigMgr->GetOption<std::string>("DuelReset.Areas", "12;14;809"), m_areaWhitelist);
+    FillWhitelist(sConfigMgr->GetOption<std::string>("DuelReset.Zones", ""), m_zoneWhitelist);
+    FillWhitelist(sConfigMgr->GetOption<std::string>("DuelReset.Areas", ""), m_areaWhitelist);
 }
 
 void DuelReset::FillWhitelist(std::string zonesAreas, std::vector<uint32> &whitelist)

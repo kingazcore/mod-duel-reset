@@ -20,7 +20,7 @@ DuelReset.HealthMana = 1
 #        Default:     30  - (Enabled)
 #                     0  - (Disabled)
 
-DuelReset.CooldownAge = 30
+DuelReset.CooldownAge = 0
 
 #    DuelReset.Zones
 #        Description: Whitelist of ZoneIDs seperated by Semicolons (;) where the reset for cooldowns and health/mana is enabled.

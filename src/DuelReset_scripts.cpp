@@ -43,7 +43,43 @@ class DuelResetScript : public PlayerScript {
 public:
     DuelResetScript() : PlayerScript("DuelResetScript") {}
 
-    // Called when a duel starts (after 3s countdown)
+    // 发起重置时即重置
+    void OnDuelRequest(Player *player1, Player *player2) override {
+        // Check if Reset is allowed in area or zone
+        if (!sDuelReset->IsAllowedInArea(player1)) {
+            return;
+        }
+
+        // Cooldowns reset
+        if (sDuelReset->GetResetCooldownsEnabled())
+        {
+            sDuelReset->SaveCooldownStateBeforeDuel(player1);
+            sDuelReset->SaveCooldownStateBeforeDuel(player2);
+
+            sDuelReset->ResetSpellCooldowns(player1, true);
+            sDuelReset->ResetSpellCooldowns(player2, true);
+        }
+
+        // Health and mana reset
+        if (sDuelReset->GetResetHealthEnabled())
+        {
+            sDuelReset->SaveHealthBeforeDuel(player1);
+            if (player1->getPowerType() == POWER_MANA || player1->getClass() == CLASS_DRUID)
+            {
+                sDuelReset->SaveManaBeforeDuel(player1);
+            }
+            player1->ResetAllPowers();
+
+            sDuelReset->SaveHealthBeforeDuel(player2);
+            if (player2->getPowerType() == POWER_MANA || player2->getClass() == CLASS_DRUID)
+            {
+                sDuelReset->SaveManaBeforeDuel(player2);
+            }
+            player2->ResetAllPowers();
+        }
+    }
+
+    /*// Called when a duel starts (after 3s countdown)
     void OnDuelStart(Player *player1, Player *player2) override {
         // Check if Reset is allowed in area or zone
         if (!sDuelReset->IsAllowedInArea(player1)) {
@@ -107,7 +143,7 @@ public:
                     sDuelReset->RestoreManaAfterDuel(loser);
             }
         }
-    }
+    }*/
 };
 
 void AddSC_DuelReset()
